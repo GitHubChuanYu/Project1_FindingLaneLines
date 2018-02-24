@@ -15,7 +15,7 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/grayscale.jpg "Grayscale"
+[image1]: ./test_images_output/output_solidWhiteCurve.jpg "FinalOutput"
 
 ---
 
@@ -48,11 +48,9 @@ The final image with found lane lines on left and right is like this one:
 ### 2. Shortcomings
 
 
-One potential shortcoming would be the region_of_interest to mask the edged image is fixed, so it is not adaptive to the image
-It would be better to make the region_of_interest adaptive to the input image
+One potential shortcoming would be the region_of_interest to mask the edged image is fixed, so it is not adaptive to the image, it would be better to make the region_of_interest adaptive to the input image
 
-Another shortcoming could be the results of finding lane lines are very sensitive to tuning parameters in functions like `canny` and `hough_lines`
-It would be better to make the lane detection results of different images more robust without too much tuning effort
+Another shortcoming could be the results of finding lane lines are very sensitive to tuning parameters in functions like `canny` and `hough_lines`, it would be better to make the lane detection results of different images more robust without too much tuning effort
 
 
 ### 3. Possible improvements
