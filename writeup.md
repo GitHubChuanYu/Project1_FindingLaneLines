@@ -1,8 +1,8 @@
 # **Finding Lane Lines on the Road** 
 
-## Writeup Template
+## Writeup
 
-### You can use this file as a template for your writeup if you want to submit it as a markdown file. But feel free to use some other method and submit a pdf if you prefer.
+### This is Chuan's writeup for project 1 **Finding Lane Lines on the Road**
 
 ---
 
@@ -21,27 +21,40 @@ The goals / steps of this project are the following:
 
 ### Reflection
 
-### 1. Describe your pipeline. As part of the description, explain how you modified the draw_lines() function.
+### 1. Pipeline description
 
-My pipeline consisted of 5 steps. First, I converted the images to grayscale, then I .... 
+My pipeline consisted of 5 steps:
 
-In order to draw a single line on the left and right lanes, I modified the draw_lines() function by ...
+- Convert the image to grayscale using code `image_gray = grayscale(image)`
+- Get the edges of the image using canny edge detection `edges = canny(blur_gray, low_threshold, high_threshold)`
+- Mask the edged image with interested area using code `masked_image = region_of_interest(edges, vertices)`
+- Get lines in masked and edged image using hough transform `line_image = hough_lines(masked_image, rho, theta, threshold, min_line_length, max_line_gap)`
+- Combine lines with original image using code `line_images = weighted_img(line_image, image, α=0.8, β=1., γ=0.)`
 
-If you'd like to include images to show how the pipeline works, here is how to include an image: 
+In order to draw a single line on the left and right lanes, I modified the draw_lines() function by:
+
+- Separate all line segments into some for left line and the rest for right line
+- Calculate average slope for left and right line based on the slopes of line segments
+- Calculate 1 average point with (x,y) value on left and right line
+- Use the average slope and average point to get the (x,y) value of top and bottom points of left and right line
+- Plot left and right line with top and bottom points respectively
+- **The most important part to filter out the unwanted vertical (y2-y1=0) and horizontal line (x2-x1=0) segments is helpful for making lane lines stable for video**
+
+The final image with found lane lines on left and right is like this one:
 
 ![alt text][image1]
 
 
-### 2. Identify potential shortcomings with your current pipeline
+### 2. Shortcomings
 
 
-One potential shortcoming would be what would happen when ... 
+One potential shortcoming would be the region_of_interest to mask the edged image is fixed, so it is not adaptive to the image
+It would be better to make the region_of_interest adaptive to the input image
 
-Another shortcoming could be ...
+Another shortcoming could be the results of finding lane lines are very sensitive to tuning parameters in functions like `canny` and `hough_lines`
+It would be better to make the lane detection results of different images more robust without too much tuning effort
 
 
-### 3. Suggest possible improvements to your pipeline
+### 3. Possible improvements
 
-A possible improvement would be to ...
-
-Another potential improvement could be to ...
+One possible improvement would be to improve my pipeline to make it work for the challenge.mp4 video
